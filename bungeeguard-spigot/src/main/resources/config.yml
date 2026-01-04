@@ -16,3 +16,9 @@ no-data-kick-message: "&cUnable to authenticate - no data was forwarded by the p
 # included in their handshake. Assuming BungeeGuard is installed correctly on all proxies,
 # this is most likely a client trying to exploit the BungeeCord protocol to spoof their uuid.
 invalid-token-kick-message: "&cUnable to authenticate."
+
+# This will bypass the check of "settings.bungeecord" in spigot.yml
+# Only enable this if you're running BungeeGuard in a fork of Spigot that unifies its config in a different file
+# or does not use "spigot.yml"
+# ENSURE YOU HAVE ENABLED BUNGEECORD IN THE CORRESPONDING CONFIGURATION OF YOUR SPIGOT SERVER IF SO.
+bungeecord-check-bypass: false

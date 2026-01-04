@@ -55,7 +55,7 @@ public class BungeeGuardBackendPlugin extends JavaPlugin implements BungeeGuardB
         this.tokenStore = new TokenStore(this);
         this.tokenStore.load();
 
-        if (!isBungeeCordEnabled()) {
+        if (!isBungeeCordEnabled() && !isBungeeCordOverriden()) {
             getLogger().severe("------------------------------------------------------------");
             getLogger().severe("'settings.bungeecord' is set to false in spigot.yml.");
             getLogger().severe("");
@@ -64,6 +64,16 @@ public class BungeeGuardBackendPlugin extends JavaPlugin implements BungeeGuardB
             getLogger().severe("------------------------------------------------------------");
             getServer().shutdown();
             return;
+        } else if (isBungeeCordOverriden()) {
+            // Throw warning
+            getLogger().severe("------------------------------------------------------------");
+            getLogger().severe("'settings.bungeecord' is set to false in spigot.yml.");
+            getLogger().severe("You have decided to bypass this check.");
+            getLogger().severe("");
+            getLogger().severe("BungeeGuard cannot function unless this property is set to true.");
+            getLogger().severe("If you bypassed the setting and didn't configure properly your server");
+            getLogger().severe("you may be *** AT RISK ***. Shut down immediately and configure properly.");
+            getLogger().severe("------------------------------------------------------------");
         }
 
         if (isPaperHandshakeEvent()) {
@@ -97,6 +107,10 @@ public class BungeeGuardBackendPlugin extends JavaPlugin implements BungeeGuardB
         File spigotConfigFile = new File("spigot.yml");
         YamlConfiguration spigotConfig = YamlConfiguration.loadConfiguration(spigotConfigFile);
         return spigotConfig.getBoolean("settings.bungeecord", false);
+    }
+
+    private boolean isBungeeCordOverriden() {
+        return getConfig().getBoolean("bungeecord-check-bypass", false);
     }
 
     @Override
